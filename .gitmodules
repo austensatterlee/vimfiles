@@ -1,0 +1,21 @@
+[submodule "bundle/nerdcommenter"]
+	path = bundle/nerdcommenter
+	url = https://github.com/scrooloose/nerdcommenter.git
+[submodule "bundle/nerdtree"]
+	path = bundle/nerdtree
+	url = https://github.com/scrooloose/nerdtree.git
+[submodule "bundle/tagbar"]
+	path = bundle/tagbar
+	url = https://github.com/scrooloose/tagbar.git
+[submodule "bundle/vim-misc"]
+	path = bundle/vim-misc
+	url = https://github.com/scrooloose/vim-misc.git
+[submodule "bundle/vim-scriptease"]
+	path = bundle/vim-scriptease
+	url = https://github.com/scrooloose/vim-scriptease.git
+[submodule "bundle/vim-session"]
+	path = bundle/vim-session
+	url = https://github.com/scrooloose/vim-session.git
+[submodule "bundle/vim-surround"]
+	path = bundle/vim-surround
+	url = https://github.com/scrooloose/vim-surroung.git
