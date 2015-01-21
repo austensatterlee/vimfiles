@@ -1,4 +1,1 @@
-#My very own vimfiles.
-###cluttered,
-##  tactless,
-####        and the extent of my current knowledge of vim.
+### Files which are mostly only useful with vim.

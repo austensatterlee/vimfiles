@@ -63,8 +63,8 @@ if strftime("%H") < 6 + 0
   colorscheme darkblue
 elseif strftime("%H") < 12 + 0
   colorscheme morning
-elseif strftime("%H") < 20 + 0
-  colorscheme guardian
+elseif strftime("%H") < 18 + 0
+  colorscheme wombat
 else
   colorscheme darkblue2
 endif
