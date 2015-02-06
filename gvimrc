@@ -60,13 +60,13 @@ if version >= 500
 " progressively check higher values... falls out on first "true"
 " (note addition of zero ... this guarantees return from function is numeric
 if strftime("%H") < 6 + 0
-  colorscheme darkblue
+  colorscheme molokai
 elseif strftime("%H") < 12 + 0
   colorscheme morning
 elseif strftime("%H") < 18 + 0
   colorscheme wombat
 else
-  colorscheme darkblue2
+  colorscheme molokai
 endif
 
 endif
