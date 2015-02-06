@@ -1,31 +1,45 @@
 [submodule "bundle/nerdcommenter"]
     path = bundle/nerdcommenter
-    url = https://github.com/scrooloose/nerdcommenter.git
+    url = git://github.com/scrooloose/nerdcommenter.git
 [submodule "bundle/nerdtree"]
     path = bundle/nerdtree
-    url = https://github.com/scrooloose/nerdtree.git
+    url = git://github.com/scrooloose/nerdtree.git
 [submodule "bundle/tagbar"]
     path = bundle/tagbar
-    url = https://github.com/majutsushi/tagbar.git
+    url = git://github.com/majutsushi/tagbar.git
 [submodule "bundle/vim-misc"]
     path = bundle/vim-misc
-    #url = https://github.com/scrooloose/vim-misc.git
-    url = https://github.com/xolox/vim-misc.git
+    url = git://github.com/scrooloose/vim-misc.git
 [submodule "bundle/vim-scriptease"]
     path = bundle/vim-scriptease
-    url = https://github.com/scrooloose/vim-scriptease.git
+    url = git://github.com/scrooloose/vim-scriptease.git
 [submodule "bundle/vim-session"]
     path = bundle/vim-session
-    url = https://github.com/scrooloose/vim-session.git
+    url = git://github.com/scrooloose/vim-session.git
 [submodule "bundle/vim-surround"]
     path = bundle/vim-surround
-    url = https://github.com/scrooloose/vim-surroung.git
+    url = git://github.com/scrooloose/vim-surround.git
 [submodule "bundle/emmet-vim"]
     path = bundle/emmet-vim
-    url = https://github.com/mattn/emmet-vim.git
+    url = git://github.com/mattn/emmet-vim.git
+[submodule "bundle/ack.vim"]
+    path = bundle/ack.vim
+    url = git://github.com/mileszs/ack.vim.git
+[submodule "bundle/ctrlp.vim"]
+    path = bundle/ctrlp.vim
+    url = git://github.com/kien/ctrlp.vim.git
+[submodule "bundle/mru"]
+    path = bundle/mru
+    url = git://github.com/yegappan/mru
+[submodule "bundle/vim-easymotion"]
+    path = bundle/vim-easymotion
+    url = git://github.com/Lokaltog/vim-easymotion
+[submodule "bundle/vim-endwise"]
+    path = bundle/vim-endwise
+    url = git://github.com/tpope/vim-endwise
 [submodule "bundle/vim-exchange"]
     path = bundle/vim-exchange
-    url = https://github.com/tommcdo/vim-exchange.git
-[submodule "bundle/ack.vim"]
-	path = bundle/ack.vim
-	url = https://github.com/mileszs/ack.vim.git
+    url = git://github.com/tommcdo/vim-exchange.git
+[submodule "bundle/vim-sensible"]
+    path = bundle/vim-sensible
+    url = git://github.com/tpope/vim-sensible.git
