@@ -6,18 +6,41 @@ set nocompatible
 silent execute pathogen#infect()
 syntax on
 filetype plugin indent on
-set runtimepath^=~/vimfiles/bundle/ctrlp.vim
 
 " Use jk to enter command mode
 inoremap jk <Esc>
 " Leader
 let mapleader = ","
+set backup
 if has("win32")
-        set backup
         set backupdir=~/vimfiles/backup
+        set runtimepath^=~/vimfiles/bundle/ctrlp.vim
 endif
+if has("unix")
+    set backupdir=~/.vim/backup
+    set runtimepath^=~/.vim/bundle/ctrlp.vim
+    " Tell vim to remember certain things when we exit
+    " "  '10  :  marks will be remembered for up to 10 previously edited files
+    " "  "100 :  will save up to 100 lines for each register
+    " "  :20  :  up to 20 lines of command-line history will be remembered
+    " "  %    :  saves and restores the buffer list
+    " "  n... :  where to save the viminfo files
+    set viminfo='10,\"100,:20,%,n~/.viminfo
+endif
+function! ResCur()
+  if line("'\"") <= line("$")
+    normal! g`"
+    return 1
+  endif
+endfunction
+
+augroup resCur
+  autocmd!
+  autocmd BufWinEnter * call ResCur()
+augroup END  
+
 set autochdir
-set t_Co=256
+set t_Co=8
 
 set rnu
 set ruler
@@ -88,6 +111,7 @@ if has("win32")
 endif
 " Override the color of the current line
 hi CursorLine ctermbg=17 ctermfg=254
+colorscheme zmrok
 
 " vim -b : edit binary using xxd-format!
 augroup Binary
