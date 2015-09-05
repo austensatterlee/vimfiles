@@ -92,13 +92,13 @@ hi CursorLine ctermbg=17 ctermfg=254
 " vim -b : edit binary using xxd-format!
 augroup Binary
   au!
-  au BufReadPre  *.bin let &bin=1
-  au BufReadPost *.bin if &bin | %!xxd
-  au BufReadPost *.bin set ft=xxd | endif
-  au BufWritePre *.bin if &bin | %!xxd -r
-  au BufWritePre *.bin endif
-  au BufWritePost *.bin if &bin | %!xxd
-  au BufWritePost *.bin set nomod | endif
+  au BufReadPre  *.bin,*.mid let &bin=1
+  au BufReadPost *.bin,*.mid if &bin | %!xxd
+  au BufReadPost *.bin,*.mid set ft=xxd | endif
+  au BufWritePre *.bin,*.mid if &bin | %!xxd -r
+  au BufWritePre *.bin,*.mid endif
+  au BufWritePost *.bin,*.mid if &bin | %!xxd
+  au BufWritePost *.bin,*.mid set nomod | endif
 augroup END
 
 " Map nerdtree to ctrl-n
@@ -316,4 +316,8 @@ let g:ConqueTerm_FastMode = 1
 " JK motions: Line motions
 map <Leader>j <Plug>(easymotion-j)
 map <Leader>k <Plug>(easymotion-k)
+
+" ctrl-p options
+let g:ctrlp_extensions = ['buffertag', 'line', 'tag', 'dir', 'changes', 'quickfix', 'rtscript',
+                        \ 'undo',  'mixed', 'bookmarkdir']
 
