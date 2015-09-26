@@ -29,11 +29,11 @@ set showmatch
 set scrolloff=7
 set backspace=eol,start
 
-" Make tabs == 4 spaces
-set tabstop=8
+" Make tabs == 2 spaces
+set tabstop=2
 set expandtab
-set shiftwidth=4
-set softtabstop=4
+set shiftwidth=2
+set softtabstop=2
 set autoindent
 
 " text formatting
@@ -103,7 +103,7 @@ augroup END
 
 " Map nerdtree to ctrl-n
 map <C-n> :NERDTreeToggle<CR>
-nmap <F2> :TagbarToggle<CR>
+nmap <leader>tb :TagbarToggle<CR>
 
 " Open NERDTree automatically when vim starts up if no files were
 " specified
@@ -118,6 +118,9 @@ let g:NERDTreeQuitOnOpen = 1
 let g:NERDTreeShowFiles = 1
 let g:NERDTreeShowBookmarks = 1
 let g:NERDTreeBookmarksSort = 1
+"
+" NERDCommenter settings
+let g:NERDSpaceDelims = 1
 
 " Session settings
 noremap <leader>ss :SaveSession<CR>
@@ -318,6 +321,23 @@ map <Leader>j <Plug>(easymotion-j)
 map <Leader>k <Plug>(easymotion-k)
 
 " ctrl-p options
-let g:ctrlp_extensions = ['buffertag', 'line', 'tag', 'dir', 'changes', 'quickfix', 'rtscript',
-                        \ 'undo',  'mixed', 'bookmarkdir']
+"let g:ctrlp_extensions = ['buffertag', 'line', 'tag', 'dir', 'changes', 'quickfix', 'rtscript',
+                        "\ 'undo',  'mixed', 'bookmarkdir']
+" Set no max file limit
+let g:ctrlp_max_files = 0
+" Search from current directory instead of project root
+let g:ctrlp_working_path_mode = 0
 
+" Ignore these directories
+set wildignore+=*/build/**
+set wildignore+=*/out/**
+set wildignore+=*/vendor/**
+map <Leader>fp :CtrlPBufTag<cr>
+map <Leader>Fp :CtrlPBufTagAll<cr>
+"" Search in certain directories a large project (hardcoded for now)
+"cnoremap %proj <c-r>=expand('~/Projects/some-project')<cr>
+"" ga = go api
+"map <Leader>ga :CtrlP %proj/api/<cr>
+"" gf = go frontend
+"map <Leader>gf :CtrlP %proj/some/long/path/to/frontend/code/<cr>
+set term=xterm-256

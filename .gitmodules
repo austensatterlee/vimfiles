@@ -8,17 +8,18 @@
     path = bundle/tagbar
     url = git://github.com/majutsushi/tagbar.git
 [submodule "bundle/vim-misc"]
-    path = bundle/vim-misc
-    url = git://github.com/scrooloose/vim-misc.git
+	path = bundle/vim-misc
+    ; url = git://github.com/tpope/vim-misc.git
+	url = git://github.com/xolox/vim-misc.git
 [submodule "bundle/vim-scriptease"]
     path = bundle/vim-scriptease
-    url = git://github.com/scrooloose/vim-scriptease.git
+    url = git://github.com/tpope/vim-scriptease.git
 [submodule "bundle/vim-session"]
     path = bundle/vim-session
-    url = git://github.com/scrooloose/vim-session.git
+    url = git://github.com/xolox/vim-session.git
 [submodule "bundle/vim-surround"]
     path = bundle/vim-surround
-    url = git://github.com/scrooloose/vim-surround.git
+    url = git://github.com/tpope/vim-surround.git
 [submodule "bundle/emmet-vim"]
     path = bundle/emmet-vim
     url = git://github.com/mattn/emmet-vim.git
