@@ -1,0 +1,56 @@
+#include "JacobiSolver.H"
+#include <cassert>
+
+float max_norm(const SparseMatrix& sm){
+  assert(sm.M() == sm.N());
+  float maxdiag = sm[{0,0}];
+  for(int i=0;i<sm.M();i++){
+    float currdiag = std::abs(sm[{i,i}]);
+    if(currdiag > maxdiag)
+      maxdiag = currdiag;
+  }
+  return maxdiag;
+}
+
+float max_norm(const vector<float>& v){
+  assert(v.size());
+  float maxval = v[0];
+  for(int i=0;i<v.size();i++){
+    if(v[i]>maxval)
+      maxval = v[i];
+  }
+  return maxval;
+}
+
+float JacobiSolver::solve(const SparseMatrix& a_A, const vector<float>& a_rhs, float a_tolerance, int a_iter, vector<float>& a_phi){
+  assert(a_A.M()==a_A.N());
+  int M = a_A.M();
+  SparseMatrix Dinv(M,M);
+  SparseMatrix R(M,M);
+  for(int i = 0; i < M; i++){
+    for(int j = 0; j < M; j++){
+      if(i==j)
+        Dinv[{i,i}] = 1./a_A[{i,i}];
+      else
+        R[{i,j}] = a_A[{i,j}];
+    }
+  }
+
+  int iter = 0;
+  cout << "Initial norm(rhs): " << max_norm(a_rhs) << "\n";
+  while(iter < a_iter && max_norm(R)/max_norm(a_rhs) > a_tolerance){
+    for(int i=0;i<M;i++){
+      
+      float s = 0;
+      for(int j=0;j<M;j++){
+        if(j!=i){
+          s = s + a_A[{i,j}]*a_phi[j];
+        }
+      }
+      a_phi[i] = 1./a_A[{i,i}] * (a_rhs[i] - s);
+    }
+  }
+  cout << "Final norm(residual)/norm(rhs): " << max_norm(R)/max_norm(a_rhs) << "\n";
+  cout << "Computed " << iter << " iterations.\n";
+  return max_norm(R);
+}

@@ -1,0 +1,151 @@
+#include "SparseMatrix.H"
+#include <algorithm>
+#include <iostream>
+
+SparseMatrix::SparseMatrix(int a_M, int a_N):
+  m_m(a_M),
+  m_n(a_N),
+  m_zero(0.0),
+  m_data(a_M),
+  m_colIndex(a_M)
+
+{
+  // Initialize the rows of the matrix, but leave the cells empty
+  for(int i=0;i<m_m;i++)
+  {
+    m_colIndex[i] = vector<int>();
+    m_data[i] = vector<float>();
+  }
+}
+
+SparseMatrix::SparseMatrix() : 
+  SparseMatrix(0,0)
+{
+}
+
+vector<float> SparseMatrix::operator*(const vector<float>& a_v) const 
+{
+  vector<float> result(m_m);
+  for(unsigned int i=0;i<m_m;i++)
+  {
+    for(unsigned int j=0;j<m_data[i].size();j++) 
+    {
+      // Get the column that corresponds to this cell in the dense matrix
+      int colInd = m_colIndex[i][j]; 
+      result[i] += m_data[i][j]*a_v[colInd];
+    }
+  }
+  return result;
+}
+
+float& SparseMatrix::operator[](array<int, 2> a_index)
+{
+  assert(a_index[0]>=0 && a_index[0]<m_m);
+  assert(a_index[1]>=0 && a_index[1]<m_n);
+
+  int row = a_index[0];
+  int col = 0;
+  int currRowSize = m_colIndex[row].size();
+
+  // Find where (if at all) the requested column exists in the requested row
+  for(; col < currRowSize && m_colIndex[row][col] != a_index[1]; col++);
+
+  // If the requested cell is not yet in the sparse matrix, add it.
+  if(col>=currRowSize)
+  {
+    m_data[row].push_back(0);
+    m_colIndex[row].push_back(a_index[1]);
+  }
+  return m_data[row][col];
+} 
+
+const float& SparseMatrix::operator[](array<int, 2> a_index) const 
+{
+  assert(a_index[0]>=0 && a_index[0]<m_m);
+  assert(a_index[1]>=0 && a_index[1]<m_n);
+
+  int row = a_index[0];
+  int col = 0;
+  int currRowSize = m_colIndex[row].size();
+
+  // Find where (if at all) the requested column exists in the requested row
+  for(; col < currRowSize && m_colIndex[row][col] != a_index[1]; col++);
+
+  // If the requested cell is not yet in the sparse matrix, return a const
+  // reference to zero.
+  if(col>=currRowSize)
+  {
+    return m_zero;
+  }
+  else
+  {
+    return m_data[row][col];
+  }
+}
+
+void SparseMatrix::zero()
+{
+  for(unsigned int i=0;i<m_m;i++)
+  {
+    for(unsigned int j=0;j<m_data[i].size();j++)
+    {
+      m_data[i][j] = 0.0;
+    }
+  }
+}
+
+SparseMatrix SparseMatrix::transpose() const 
+{
+  SparseMatrix sm = SparseMatrix(m_n,m_m);
+  for(int r=0;r<m_m;r++)
+  {
+    for(int c=0;c<m_data[r].size();c++)
+    {
+      sm[{c,r}] = (*this)[{r,c}];
+    }
+  }
+  return sm;
+}
+unsigned int SparseMatrix::M() const 
+{
+  return m_m;
+}
+unsigned int SparseMatrix::N() const 
+{
+  return m_n;
+}
+bool SparseMatrix::symmetric() const 
+{
+  bool result = true;
+  for(int r=0;r<m_m;r++){
+    int rowsize = m_data[r].size();
+    for(int c=0;c<rowsize;c++){
+      result &= ( m_data[r][c]==(*this)[{c,r}] );
+      assert( m_data[r].size() == rowsize ); // ensure the const [] operator was called
+    }
+  }
+  return result;
+}
+
+float SparseMatrix::max_norm() const{
+  assert(m_m == m_n);
+  float maxdiag = (*this)[{0,0}];
+  for(int i=0;i<m_m;i++){
+    float currdiag = std::abs((*this)[{i,i}]);
+    if(currdiag > maxdiag)
+      maxdiag = currdiag;
+  }
+  return maxdiag;
+}
+
+void SparseMatrix::print() const 
+{
+  for (int i=0;i<m_m;i++)
+  {
+    for(int j=0;j<m_n;j++)
+    {
+      std::cout << (*this)[{i,j}] << " ";
+    }
+    std::cout << std::endl;
+  }
+}

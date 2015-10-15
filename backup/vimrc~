@@ -413,6 +413,3 @@ if !has("win32")
   set <Down>=[B
   set <xDown>=[B
 endif
-
-" YCM
-let g:ycm_confirm_extra_conf = 0

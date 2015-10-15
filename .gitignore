@@ -5,6 +5,8 @@
 !.gitmodules
 .VimballRecord
 .netrwhist
+bundle/**
+sessions/
 "after/*
 "bitmaps/*
 "compiler/*
@@ -16,3 +18,4 @@
 "sessions/*
 "syntax/*
 "view/*
+

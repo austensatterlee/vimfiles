@@ -1,0 +1,27 @@
+#include "JacobiSolver.H"
+#include "SparseMatrix.H"
+#include <cassert>
+#include <iostream>
+#include <vector>
+
+using std::vector;
+
+int main(int argc, char** argv){
+  SparseMatrix A(2,2);
+  A[{0,0}] = 2;
+  A[{1,0}] = 5;
+  A[{0,1}] = 1;
+  A[{1,1}] = 7;
+  vector<float> b = vector<float>{11,13};
+  vector<float> phi = vector<float>{1,1};
+  //std::cout << "A: " << "\n";
+  //A.print();
+
+  JacobiSolver js;
+  std::cout << "max_norm(residual): " << js.solve(A,b,0,10,phi) << "\n";
+  std::cout << "phi: ";
+  for(float x : phi){
+    std::cout << x << ", ";
+  }
+  std::cout << "\n";
+}
