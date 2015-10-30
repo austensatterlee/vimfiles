@@ -399,20 +399,18 @@ map <Leader>Fp :CtrlPBufTagAll<cr>
 "" gf = go frontend
 "map <Leader>gf :CtrlP %proj/some/long/path/to/frontend/code/<cr>
 
-set t_Co=256
 "set t_Sb=m
 "set t_Sf=m
-if !has("win32")
-  set term=xterm-256
-  set <Up>=[A
-  set <xUp>=[A
-  set <Left>=[D
-  set <xLeft>=[D
-  set <Right>=[C
-  set <xRight>=[C
-  set <Down>=[B
-  set <xDown>=[B
-endif
+" set t_Co=
+set term=xterm-256color
+set <Up>=[A
+set <xUp>=[A
+set <Left>=[D
+set <xLeft>=[D
+set <Right>=[C
+set <xRight>=[C
+set <Down>=[B
+set <xDown>=[B
 
 " YCM
 let g:ycm_confirm_extra_conf = 0
