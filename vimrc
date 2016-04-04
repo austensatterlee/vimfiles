@@ -414,3 +414,5 @@ set <xDown>=[B
 
 " YCM
 let g:ycm_confirm_extra_conf = 0
+
+set modeline
