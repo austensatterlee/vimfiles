@@ -2,8 +2,13 @@ set nocompatible              " be iMproved, required
 filetype off                  " required
 
 " set the runtime path to include Vundle and initialize
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#rc()
+if has('win32')
+  set rtp+=~/vimfiles/bundle/Vundle.vim
+  call vundle#rc('~/vimfiles/bundle')
+else
+  set rtp+=~/.vim/bundle/Vundle.vim
+  call vundle#rc('~/.vim/bundle')
+endif
 
 Bundle 'gmarik/vundle'
 
@@ -21,6 +26,8 @@ Bundle 'scrooloose/nerdcommenter'
 
 " bundle/nerdtree
 Bundle 'scrooloose/nerdtree'
+
+Bundle 'Xuyuanp/nerdtree-git-plugin'
 
 " bundle/tagbar
 Bundle 'majutsushi/tagbar'
@@ -46,9 +53,13 @@ Bundle 'xolox/vim-session'
 " bundle/vim-surround
 Bundle 'tpope/vim-surround'
 
-Bundle 'Valloric/YouCompleteMe'
+" Bundle 'Valloric/YouCompleteMe'
 
-Bundle 'rdnetto/YCM-Generator'
+" Bundle 'rdnetto/YCM-Generator'
+
+Bundle 'Valloric/MatchTagAlways'
+
+Bundle 'vim-scripts/closetag.vim'
 
 
 " Brief help
@@ -60,6 +71,9 @@ Bundle 'rdnetto/YCM-Generator'
 " see :h vundle for more details or wiki for FAQ
 " Put your non-Plugin stuff after this line
 " ------------------------------------------------------------------------------- 
+call vundle#end()            " required
+filetype plugin indent on    " required
+
 " Use Vim settings, rather than Vi settings (much better!).
 " This must be first, because it changes other options as a side effect.
 "
@@ -75,6 +89,10 @@ else
   set backup
   set backupdir=~/.vim/backup
 endif
+set autochdir
+" set t_Co=256
+
+set exrc
 
 set rnu
 set ruler
@@ -109,6 +127,7 @@ set formatoptions-=t
 " augroup END
 " Use ,wr to wrap lines
 noremap <leader>wr :g/^/norm gqq<CR>
+noremap <leader>ma :w<CR>:make<CR>
 
 " Fold column
 set foldcolumn=2
@@ -165,8 +184,8 @@ nmap <leader>tb :TagbarToggle<CR>
 
 " Open NERDTree automatically when vim starts up if no files were
 " specified
-" autocmd StdinReadPre * let s:std_in=1
-" autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
+autocmd StdinReadPre * let s:std_in=1
+autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
 " NERDTree settings
 let NERDTreeIgnore = ['\~$','\.pyc$','\.swp$']
 let g:NERDTreeMouseMode = 2
@@ -176,6 +195,7 @@ let g:NERDTreeQuitOnOpen = 1
 let g:NERDTreeShowFiles = 1
 let g:NERDTreeShowBookmarks = 1
 let g:NERDTreeBookmarksSort = 1
+let NERDTreeHijackNetrw=1
 "
 " NERDCommenter settings
 let g:NERDSpaceDelims = 1
@@ -402,6 +422,8 @@ map <Leader>Fp :CtrlPBufTagAll<cr>
 "set t_Sb=m
 "set t_Sf=m
 " set t_Co=
+if has('win32')
+else
 set term=xterm-256color
 set <Up>=[A
 set <xUp>=[A
@@ -411,8 +433,10 @@ set <Right>=[C
 set <xRight>=[C
 set <Down>=[B
 set <xDown>=[B
+endif
 
 " YCM
 let g:ycm_confirm_extra_conf = 0
 
 set modeline
+
