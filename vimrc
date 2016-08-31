@@ -53,9 +53,9 @@ Bundle 'xolox/vim-session'
 " bundle/vim-surround
 Bundle 'tpope/vim-surround'
 
-" Bundle 'Valloric/YouCompleteMe'
+Bundle 'Valloric/YouCompleteMe'
 
-" Bundle 'rdnetto/YCM-Generator'
+Bundle 'rdnetto/YCM-Generator'
 
 Bundle 'Valloric/MatchTagAlways'
 
@@ -93,6 +93,7 @@ set autochdir
 " set t_Co=256
 
 set exrc
+set secure
 
 set rnu
 set ruler
@@ -107,13 +108,16 @@ set autochdir
 
 " Make tabs == 2 spaces
 set tabstop=2
-set expandtab
 set shiftwidth=2
 set softtabstop=2
 set autoindent
+set expandtab
 
 " text formatting
-set textwidth=74
+set textwidth=110
+set colorcolumn=110
+highlight ColorColumn ctermbg=darkgray
+
 " set equalprg=par\ -jw74
 set listchars=tab:>-,trail:-
 " Set status bar
@@ -399,18 +403,18 @@ map <Leader>j <Plug>(easymotion-j)
 map <Leader>k <Plug>(easymotion-k)
 
 " ctrl-p options
-"let g:ctrlp_extensions = ['buffertag', 'line', 'tag', 'dir', 'changes', 'quickfix', 'rtscript',
-"\ 'undo',  'mixed', 'bookmarkdir']
+let g:ctrlp_extensions = ['buffertag', 'line', 'tag', 'dir', 'changes', 'quickfix', 'rtscript', 'undo', 
+                        \ 'mixed', 'bookmarkdir']
 " Set no max file limit
 let g:ctrlp_max_files = 0
 " Search from current directory instead of project root
-let g:ctrlp_working_path_mode = 0
+let g:ctrlp_working_path_mode = 1
 
 " Ignore these directories
 set wildignore+=*/build/**
 set wildignore+=*/out/**
 set wildignore+=*/vendor/**
-map <Leader>fp :CtrlPBufTag<cr>
+map <Leader>fp :CtrlPMixed<cr>
 map <Leader>Fp :CtrlPBufTagAll<cr>
 "" Search in certain directories a large project (hardcoded for now)
 "cnoremap %proj <c-r>=expand('~/Projects/some-project')<cr>
