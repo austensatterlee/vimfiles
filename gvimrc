@@ -42,7 +42,7 @@ if version >= 500
   if has("win32")
     let winhelpfile='windows.hlp'
     map K :execute "!start winhlp32 -k <cword> " . winhelpfile <CR>
-    set guifont=Consolas:h9:cANSI
+    set guifont=Consolas:h10:cANSI
   endif
 
   " Set nice colors
@@ -63,9 +63,9 @@ if version >= 500
 if strftime("%H") < 6 + 0
   colorscheme molokai
 elseif strftime("%H") < 12 + 0
-  colorscheme morning
+  colorscheme calmar256-light
 elseif strftime("%H") < 18 + 0
-  colorscheme wombat
+  colorscheme calmar256-dark
 else
   colorscheme molokai
 endif

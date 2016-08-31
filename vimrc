@@ -10,56 +10,57 @@ else
   call vundle#rc('~/.vim/bundle')
 endif
 
-Bundle 'gmarik/vundle'
+Plugin 'gmarik/vundle'
 
 " bundle/ack.vim
-Bundle 'mileszs/ack.vim'
+Plugin 'mileszs/ack.vim'
 
 " bundle/ctrlp.vim
-Bundle 'kien/ctrlp.vim'
+Plugin 'kien/ctrlp.vim'
 
 " bundle/mru
-Bundle 'yegappan/mru'
+Plugin 'yegappan/mru'
 
 " bundle/nerdcommenter
-Bundle 'scrooloose/nerdcommenter'
+Plugin 'scrooloose/nerdcommenter'
 
 " bundle/nerdtree
-Bundle 'scrooloose/nerdtree'
-
-Bundle 'Xuyuanp/nerdtree-git-plugin'
+Plugin 'scrooloose/nerdtree'
+Plugin 'Xuyuanp/nerdtree-git-plugin'
 
 " bundle/tagbar
-Bundle 'majutsushi/tagbar'
+Plugin 'majutsushi/tagbar'
 
 " bundle/vim-easymotion
-Bundle 'Lokaltog/vim-easymotion'
+Plugin 'Lokaltog/vim-easymotion'
 
 " bundle/vim-endwise
-Bundle 'tpope/vim-endwise'
+Plugin 'tpope/vim-endwise'
 
 " bundle/vim-misc
-Bundle 'xolox/vim-misc'
+Plugin 'xolox/vim-misc'
 
 " bundle/vim-scriptease
-Bundle 'tpope/vim-scriptease'
+Plugin 'tpope/vim-scriptease'
 
 " bundle/vim-sensible
-Bundle 'tpope/vim-sensible'
+Plugin 'tpope/vim-sensible'
 
 " bundle/vim-session
-Bundle 'xolox/vim-session'
+Plugin 'xolox/vim-session'
 
 " bundle/vim-surround
-Bundle 'tpope/vim-surround'
+Plugin 'tpope/vim-surround'
 
-" Bundle 'Valloric/YouCompleteMe'
+" Plugin 'Valloric/YouCompleteMe'
 
-" Bundle 'rdnetto/YCM-Generator'
+" Plugin 'rdnetto/YCM-Generator'
 
-Bundle 'Valloric/MatchTagAlways'
+Plugin 'Valloric/MatchTagAlways'
 
-Bundle 'vim-scripts/closetag.vim'
+Plugin 'vim-scripts/closetag.vim'
+
+Plugin 'flazz/vim-colorschemes'
 
 
 " Brief help
