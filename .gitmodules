@@ -1,6 +1,0 @@
-[submodule "bundle/emmet-vim"]
-    path = bundle/emmet-vim
-    url = git://github.com/mattn/emmet-vim.git
-[submodule "bundle/vim-exchange"]
-    path = bundle/vim-exchange
-    url = git://github.com/tommcdo/vim-exchange.git

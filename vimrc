@@ -21,7 +21,6 @@ Plugin 'yegappan/mru'
 Plugin 'scrooloose/nerdcommenter'
 
 Plugin 'scrooloose/nerdtree'
-
 Plugin 'Xuyuanp/nerdtree-git-plugin'
 
 Plugin 'majutsushi/tagbar'
@@ -39,6 +38,10 @@ Plugin 'tpope/vim-sensible'
 Plugin 'xolox/vim-session'
 
 Plugin 'tpope/vim-surround'
+
+" Plugin 'Valloric/YouCompleteMe'
+
+" Plugin 'rdnetto/YCM-Generator'
 
 Plugin 'Valloric/MatchTagAlways'
 

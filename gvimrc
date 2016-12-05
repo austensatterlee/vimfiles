@@ -62,9 +62,9 @@ if version >= 500
 if strftime("%H") < 6 + 0
   colorscheme molokai
 elseif strftime("%H") < 12 + 0
-  colorscheme molokai
+  colorscheme calmar256-light
 elseif strftime("%H") < 18 + 0
-  colorscheme molokai
+  colorscheme calmar256-dark
 else
   colorscheme molokai
 endif
