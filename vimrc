@@ -47,6 +47,10 @@ Plugin 'Valloric/MatchTagAlways'
 
 Plugin 'vim-scripts/closetag.vim'
 
+Plugin 'flazz/vim-colorschemes'
+
+Plugin 'godlygeek/tabular'
+
 
 " Brief help
 " :PluginList       - lists configured plugins
