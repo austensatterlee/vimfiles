@@ -4,62 +4,45 @@ filetype off                  " required
 " set the runtime path to include Vundle and initialize
 if has('win32')
   set rtp+=~/vimfiles/bundle/Vundle.vim
-  call vundle#rc('~/vimfiles/bundle')
+  call vundle#begin('~/vimfiles/bundle')
 else
   set rtp+=~/.vim/bundle/Vundle.vim
-  call vundle#rc('~/.vim/bundle')
+  call vundle#begin('~/.vim/bundle')
 endif
 
-Bundle 'gmarik/vundle'
+Plugin 'VundleVim/Vundle.vim'
 
-" bundle/ack.vim
-Bundle 'mileszs/ack.vim'
+Plugin 'mileszs/ack.vim'
 
-" bundle/ctrlp.vim
-Bundle 'kien/ctrlp.vim'
+Plugin 'kien/ctrlp.vim'
 
-" bundle/mru
-Bundle 'yegappan/mru'
+Plugin 'yegappan/mru'
 
-" bundle/nerdcommenter
-Bundle 'scrooloose/nerdcommenter'
+Plugin 'scrooloose/nerdcommenter'
 
-" bundle/nerdtree
-Bundle 'scrooloose/nerdtree'
+Plugin 'scrooloose/nerdtree'
 
-Bundle 'Xuyuanp/nerdtree-git-plugin'
+Plugin 'Xuyuanp/nerdtree-git-plugin'
 
-" bundle/tagbar
-Bundle 'majutsushi/tagbar'
+Plugin 'majutsushi/tagbar'
 
-" bundle/vim-easymotion
-Bundle 'Lokaltog/vim-easymotion'
+Plugin 'Lokaltog/vim-easymotion'
 
-" bundle/vim-endwise
-Bundle 'tpope/vim-endwise'
+Plugin 'tpope/vim-endwise'
 
-" bundle/vim-misc
-Bundle 'xolox/vim-misc'
+Plugin 'xolox/vim-misc'
 
-" bundle/vim-scriptease
-Bundle 'tpope/vim-scriptease'
+Plugin 'tpope/vim-scriptease'
 
-" bundle/vim-sensible
-Bundle 'tpope/vim-sensible'
+Plugin 'tpope/vim-sensible'
 
-" bundle/vim-session
-Bundle 'xolox/vim-session'
+Plugin 'xolox/vim-session'
 
-" bundle/vim-surround
-Bundle 'tpope/vim-surround'
+Plugin 'tpope/vim-surround'
 
-Bundle 'Valloric/YouCompleteMe'
+Plugin 'Valloric/MatchTagAlways'
 
-Bundle 'rdnetto/YCM-Generator'
-
-Bundle 'Valloric/MatchTagAlways'
-
-Bundle 'vim-scripts/closetag.vim'
+Plugin 'vim-scripts/closetag.vim'
 
 
 " Brief help
@@ -188,8 +171,8 @@ nmap <leader>tb :TagbarToggle<CR>
 
 " Open NERDTree automatically when vim starts up if no files were
 " specified
-autocmd StdinReadPre * let s:std_in=1
-autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
+" autocmd StdinReadPre * let s:std_in=1
+" autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
 " NERDTree settings
 let NERDTreeIgnore = ['\~$','\.pyc$','\.swp$']
 let g:NERDTreeMouseMode = 2
@@ -444,3 +427,23 @@ let g:ycm_confirm_extra_conf = 0
 
 set modeline
 
+" Smart home feature
+" Home takes you to the first non-blank character of the line, unless you're already there.
+noremap <expr> <silent> <Home> col('.') == match(getline('.'),'\S')+1 ? '0' : '^'
+imap <silent> <Home> <C-O><Home>
+
+" Redirects output of a command into a new tab
+function! TabMessage(cmd)
+  redir => message
+  silent execute a:cmd
+  redir END
+  if empty(message)
+    echoerr "no output"
+  else
+    " use "new" instead of "tabnew" below if you prefer split windows instead of tabs
+    tabnew
+    setlocal buftype=nofile bufhidden=wipe noswapfile nobuflisted nomodified
+    silent put=message
+  endif
+endfunction
+command! -nargs=+ -complete=command TabMessage call TabMessage(<q-args>)
