@@ -69,6 +69,8 @@ else
   colorscheme molokai
 endif
 
+highlight LineNr guifg=#FFFF77
+
 if has("win32")
     set guifont=Consolas:h10:cANSI
 endif

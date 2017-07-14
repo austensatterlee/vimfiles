@@ -97,9 +97,9 @@ set backspace=eol,start
 set autochdir
 
 " Make tabs == 2 spaces
-set tabstop=2
-set shiftwidth=2
-set softtabstop=2
+set tabstop=4
+set shiftwidth=4
+set softtabstop=4
 set autoindent
 set expandtab
 
@@ -131,10 +131,13 @@ set visualbell
 set noerrorbells
 
 " Change cursor type for insert/command
-autocmd InsertEnter * :set nu
+set nu
+autocmd InsertEnter * :set nornu
 autocmd InsertLeave * :set rnu
 autocmd WinLeave * set nocursorline
+autocmd WinLeave * set nocursorcolumn
 autocmd WinEnter * set cursorline
+autocmd WinEnter * set cursorcolumn
 
 " Shoddy comment macros
 " @c to comment (identical to ,cc)
