@@ -51,6 +51,8 @@ Plugin 'flazz/vim-colorschemes'
 
 Plugin 'godlygeek/tabular'
 
+Plugin 'pboettch/vim-cmake-syntax'
+
 
 " Brief help
 " :PluginList       - lists configured plugins
@@ -96,7 +98,7 @@ set scrolloff=7
 set backspace=eol,start
 set autochdir
 
-" Make tabs == 2 spaces
+" Make tabs == 4 spaces
 set tabstop=4
 set shiftwidth=4
 set softtabstop=4
@@ -104,8 +106,8 @@ set autoindent
 set expandtab
 
 " text formatting
-set textwidth=110
-set colorcolumn=110
+set textwidth=80
+set colorcolumn=80
 highlight ColorColumn ctermbg=darkgray
 
 " set equalprg=par\ -jw74
