@@ -39,7 +39,7 @@ Plugin 'xolox/vim-session'
 
 Plugin 'tpope/vim-surround'
 
-" Plugin 'Valloric/YouCompleteMe'
+Plugin 'Valloric/YouCompleteMe'
 
 " Plugin 'rdnetto/YCM-Generator'
 
@@ -108,6 +108,7 @@ set expandtab
 " text formatting
 set textwidth=80
 set colorcolumn=80
+set encoding=utf-8
 highlight ColorColumn ctermbg=darkgray
 
 " set equalprg=par\ -jw74
