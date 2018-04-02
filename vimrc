@@ -53,6 +53,9 @@ Plugin 'godlygeek/tabular'
 
 Plugin 'pboettch/vim-cmake-syntax'
 
+Plugin 'luochen1990/rainbow'
+let g:rainbow_active = 1 "0 if you want to enable it later via :RainbowToggle
+
 
 " Brief help
 " :PluginList       - lists configured plugins
@@ -62,7 +65,7 @@ Plugin 'pboettch/vim-cmake-syntax'
 "
 " see :h vundle for more details or wiki for FAQ
 " Put your non-Plugin stuff after this line
-" ------------------------------------------------------------------------------- 
+" -------------------------------------------------------------------------------
 call vundle#end()            " required
 filetype plugin indent on    " required
 
@@ -251,6 +254,9 @@ set statusline+=%#error#
 set statusline+=%{&paste?'[paste]':''}
 set statusline+=%*
 
+"display value of the current character
+set statusline+=[%b\ 0x%B%*]
+
 set statusline+=%=      "left/right separator
 set statusline+=%{StatuslineCurrentHighlight()}\ \ "current highlight
 set statusline+=%c,     "cursor column
@@ -399,7 +405,7 @@ map <Leader>j <Plug>(easymotion-j)
 map <Leader>k <Plug>(easymotion-k)
 
 " ctrl-p options
-let g:ctrlp_extensions = ['buffertag', 'line', 'tag', 'dir', 'changes', 'quickfix', 'rtscript', 'undo', 
+let g:ctrlp_extensions = ['buffertag', 'line', 'tag', 'dir', 'changes', 'quickfix', 'rtscript', 'undo',
                         \ 'mixed', 'bookmarkdir']
 " Set no max file limit
 let g:ctrlp_max_files = 0
