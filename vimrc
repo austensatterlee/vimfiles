@@ -77,6 +77,7 @@ filetype plugin indent on    " required
 inoremap jk <Esc>
 " Leader
 let mapleader = ","
+set backupcopy=yes
 if has("win32")
   set backup
   set backupdir=~/vimfiles/backup
