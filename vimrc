@@ -1,13 +1,14 @@
 set nocompatible              " be iMproved, required
 filetype off                  " required
+let mapleader = ","
 
 " set the runtime path to include Vundle and initialize
 if has('win32')
-  set rtp+=~/vimfiles/bundle/Vundle.vim
-  call vundle#begin('~/vimfiles/bundle')
+    set rtp+=~/vimfiles/bundle/Vundle.vim
+    call vundle#begin('~/vimfiles/bundle')
 else
-  set rtp+=~/.vim/bundle/Vundle.vim
-  call vundle#begin('~/.vim/bundle')
+    set rtp+=~/.vim/bundle/Vundle.vim
+    call vundle#begin('~/.vim/bundle')
 endif
 
 Plugin 'VundleVim/Vundle.vim'
@@ -41,8 +42,6 @@ Plugin 'tpope/vim-surround'
 
 Plugin 'Valloric/YouCompleteMe'
 
-" Plugin 'rdnetto/YCM-Generator'
-
 Plugin 'Valloric/MatchTagAlways'
 
 Plugin 'vim-scripts/closetag.vim'
@@ -56,6 +55,9 @@ Plugin 'pboettch/vim-cmake-syntax'
 Plugin 'luochen1990/rainbow'
 let g:rainbow_active = 1 "0 if you want to enable it later via :RainbowToggle
 
+Plugin 'Chiel92/vim-autoformat'
+noremap <leader>pp :Autoformat<CR>
+let g:formatdef_autopep8 = '"autopep8 -".(g:DoesRangeEqualBuffer(a:firstline, a:lastline) ? " --range ".a:firstline." ".a:lastline : "")." ".(&textwidth ? "--max-line-length=".&textwidth : "")." --ignore=E501"'
 
 " Brief help
 " :PluginList       - lists configured plugins
@@ -75,15 +77,14 @@ filetype plugin indent on    " required
 
 " Use jk to enter command mode
 inoremap jk <Esc>
-" Leader
-let mapleader = ","
-set backupcopy=yes
 if has("win32")
-  set backup
-  set backupdir=~/vimfiles/backup
+    set backup
+    set viewdir=~/vimfiles/view
+    set backupdir=~/vimfiles/backup
 else
-  set backup
-  set backupdir=~/.vim/backup
+    set backup
+    set viewdir=~/.vim/view
+    set backupdir=~/.vim/backup
 endif
 set autochdir
 " set t_Co=256
@@ -146,40 +147,26 @@ autocmd WinLeave * set nocursorcolumn
 autocmd WinEnter * set cursorline
 autocmd WinEnter * set cursorcolumn
 
-" Shoddy comment macros
-" @c to comment (identical to ,cc)
-" let @c = join(["^i","#"," j"],"")
-" @u to uncomment (deletes the first two characters of the line
-" let @u = '^xxj'
-" Comment/uncomment lines with ,cc or ,uu
-" noremap <silent> <leader>cc :<C-B>silent <C-E>s/\([ ]*\)\([^ ]*\)/\1<C-R>=substitute(&commentstring,'\( \?%s \?\)','','')<CR> \2/<CR>:nohlsearch<CR>
-" noremap <silent> <leader>uu :<C-B>silent <C-E>s/^\( *\)<C-R>=substitute(&commentstring,'\(%s\)','','')<CR> \?/\1/<CR>:nohlsearch<CR>
-
-
 if has("win32")
-  " Convenient command to see the difference between the current
-  " buffer and the
-  " file it was loaded from, thus the changes you made.
-  " Only define it when not defined already.
-  if !exists(":DiffOrig")
-    command DiffOrig vert new | set bt=nofile | r ++edit # | 0d_ |
-    diffthis
-          \ | wincmd p | diffthis
-  endif
+    " Convenient command to see the difference between the current
+    " buffer and the " file it was loaded from, thus the changes you made.
+    " Only define it when not defined already.
+    if !exists(":DiffOrig")
+        command DiffOrig vert new | set bt=nofile | r ++edit # | 0d_
+                    \ | diffthis | wincmd p | diffthis
+    endif
 endif
-" Override the color of the current line
-hi CursorLine ctermbg=17 ctermfg=254
 
 " vim -b : edit binary using xxd-format!
 augroup Binary
-  au!
-  au BufReadPre  *.bin,*.mid let &bin=1
-  au BufReadPost *.bin,*.mid if &bin | %!xxd
-  au BufReadPost *.bin,*.mid set ft=xxd | endif
-  au BufWritePre *.bin,*.mid if &bin | %!xxd -r
-  au BufWritePre *.bin,*.mid endif
-  au BufWritePost *.bin,*.mid if &bin | %!xxd
-  au BufWritePost *.bin,*.mid set nomod | endif
+    au!
+    au BufReadPre  *.bin,*.mid let &bin=1
+    au BufReadPost *.bin,*.mid if &bin | %!xxd
+    au BufReadPost *.bin,*.mid set ft=xxd | endif
+    au BufWritePre *.bin,*.mid if &bin | %!xxd -r
+    au BufWritePre *.bin,*.mid endif
+    au BufWritePost *.bin,*.mid if &bin | %!xxd
+    au BufWritePost *.bin,*.mid set nomod | endif
 augroup END
 
 " Map nerdtree to ctrl-n
@@ -271,31 +258,31 @@ autocmd cursorhold,bufwritepost * unlet! b:statusline_trailing_space_warning
 "return '[\s]' if trailing white space is detected
 "return '' otherwise
 function! StatuslineTrailingSpaceWarning()
-  if !exists("b:statusline_trailing_space_warning")
+    if !exists("b:statusline_trailing_space_warning")
 
-    if !&modifiable
-      let b:statusline_trailing_space_warning = ''
-      return b:statusline_trailing_space_warning
-    endif
+        if !&modifiable
+            let b:statusline_trailing_space_warning = ''
+            return b:statusline_trailing_space_warning
+        endif
 
-    if search('\s\+$', 'nw') != 0
-      let b:statusline_trailing_space_warning = '[\s]'
-    else
-      let b:statusline_trailing_space_warning = ''
+        if search('\s\+$', 'nw') != 0
+            let b:statusline_trailing_space_warning = '[\s]'
+        else
+            let b:statusline_trailing_space_warning = ''
+        endif
     endif
-  endif
-  return b:statusline_trailing_space_warning
+    return b:statusline_trailing_space_warning
 endfunction
 
 
 "return the syntax highlight group under the cursor ''
 function! StatuslineCurrentHighlight()
-  let name = synIDattr(synID(line('.'),col('.'),1),'name')
-  if name == ''
-    return ''
-  else
-    return '[' . name . ']'
-  endif
+    let name = synIDattr(synID(line('.'),col('.'),1),'name')
+    if name == ''
+        return ''
+    else
+        return '[' . name . ']'
+    endif
 endfunction
 
 "recalculate the tab warning flag when idle and after writing
@@ -305,25 +292,25 @@ autocmd cursorhold,bufwritepost * unlet! b:statusline_tab_warning
 "return '[mixed-indenting]' if spaces and tabs are used to indent
 "return an empty string if everything is fine
 function! StatuslineTabWarning()
-  if !exists("b:statusline_tab_warning")
-    let b:statusline_tab_warning = ''
+    if !exists("b:statusline_tab_warning")
+        let b:statusline_tab_warning = ''
 
-    if !&modifiable
-      return b:statusline_tab_warning
+        if !&modifiable
+            return b:statusline_tab_warning
+        endif
+
+        let tabs = search('^\t', 'nw') != 0
+
+        "find spaces that arent used as alignment in the first indent column
+        let spaces = search('^ \{' . &ts . ',}[^\t]', 'nw') != 0
+
+        if tabs && spaces
+            let b:statusline_tab_warning =  '[mixed-indenting]'
+        elseif (spaces && !&et) || (tabs && &et)
+            let b:statusline_tab_warning = '[&et]'
+        endif
     endif
-
-    let tabs = search('^\t', 'nw') != 0
-
-    "find spaces that arent used as alignment in the first indent column
-    let spaces = search('^ \{' . &ts . ',}[^\t]', 'nw') != 0
-
-    if tabs && spaces
-      let b:statusline_tab_warning =  '[mixed-indenting]'
-    elseif (spaces && !&et) || (tabs && &et)
-      let b:statusline_tab_warning = '[&et]'
-    endif
-  endif
-  return b:statusline_tab_warning
+    return b:statusline_tab_warning
 endfunction
 
 "recalculate the long line warning when idle and after saving
@@ -337,46 +324,46 @@ autocmd cursorhold,bufwritepost * unlet! b:statusline_long_line_warning
 "lines, y is the median length of the long lines and z is the length of the
 "longest line
 function! StatuslineLongLineWarning()
-  if !exists("b:statusline_long_line_warning")
+    if !exists("b:statusline_long_line_warning")
 
-    if !&modifiable
-      let b:statusline_long_line_warning = ''
-      return b:statusline_long_line_warning
+        if !&modifiable
+            let b:statusline_long_line_warning = ''
+            return b:statusline_long_line_warning
+        endif
+
+        let long_line_lens = s:LongLines()
+
+        if len(long_line_lens) > 0
+            let b:statusline_long_line_warning = "[" .
+                        \ '#' . len(long_line_lens) . "," .
+                        \ 'm' . s:Median(long_line_lens) . "," .
+                        \ '$' . max(long_line_lens) . "]"
+        else
+            let b:statusline_long_line_warning = ""
+        endif
     endif
-
-    let long_line_lens = s:LongLines()
-
-    if len(long_line_lens) > 0
-      let b:statusline_long_line_warning = "[" .
-            \ '#' . len(long_line_lens) . "," .
-            \ 'm' . s:Median(long_line_lens) . "," .
-            \ '$' . max(long_line_lens) . "]"
-    else
-      let b:statusline_long_line_warning = ""
-    endif
-  endif
-  return b:statusline_long_line_warning
+    return b:statusline_long_line_warning
 endfunction
 
 "return a list containing the lengths of the long lines in this buffer
 function! s:LongLines()
-  let threshold = (&tw ? &tw : 80)
-  let spaces = repeat(" ", &ts)
-  let line_lens = map(getline(1,'$'), 'len(substitute(v:val, "\\t", spaces, "g"))')
-  return filter(line_lens, 'v:val > threshold')
+    let threshold = (&tw ? &tw : 80)
+    let spaces = repeat(" ", &ts)
+    let line_lens = map(getline(1,'$'), 'len(substitute(v:val, "\\t", spaces, "g"))')
+    return filter(line_lens, 'v:val > threshold')
 endfunction
 
 "find the median of the given array of numbers
 function! s:Median(nums)
-  let nums = sort(a:nums)
-  let l = len(nums)
+    let nums = sort(a:nums)
+    let l = len(nums)
 
-  if l % 2 == 1
-    let i = (l-1) / 2
-    return nums[i]
-  else
-    return (nums[l/2] + nums[(l/2)-1]) / 2
-  endif
+    if l % 2 == 1
+        let i = (l-1) / 2
+        return nums[i]
+    else
+        return (nums[l/2] + nums[(l/2)-1]) / 2
+    endif
 endfunction
 
 "make <c-l> clear the highlight as well as redraw
@@ -407,7 +394,7 @@ map <Leader>k <Plug>(easymotion-k)
 
 " ctrl-p options
 let g:ctrlp_extensions = ['buffertag', 'line', 'tag', 'dir', 'changes', 'quickfix', 'rtscript', 'undo',
-                        \ 'mixed', 'bookmarkdir']
+            \ 'mixed', 'bookmarkdir']
 " Set no max file limit
 let g:ctrlp_max_files = 0
 " Search from current directory instead of project root
@@ -431,21 +418,19 @@ map <Leader>Fp :CtrlPBufTagAll<cr>
 " set t_Co=
 if has('win32')
 else
-set term=xterm-256color
-set <Up>=[A
-set <xUp>=[A
-set <Left>=[D
-set <xLeft>=[D
-set <Right>=[C
-set <xRight>=[C
-set <Down>=[B
-set <xDown>=[B
+    set term=xterm-256color
+    set <Up>=[A
+    set <xUp>=[A
+    set <Left>=[D
+    set <xLeft>=[D
+    set <Right>=[C
+    set <xRight>=[C
+    set <Down>=[B
+    set <xDown>=[B
 endif
 
 " YCM
 let g:ycm_confirm_extra_conf = 0
-
-set modeline
 
 " Smart home feature
 " Home takes you to the first non-blank character of the line, unless you're already there.
@@ -454,16 +439,18 @@ imap <silent> <Home> <C-O><Home>
 
 " Redirects output of a command into a new tab
 function! TabMessage(cmd)
-  redir => message
-  silent execute a:cmd
-  redir END
-  if empty(message)
-    echoerr "no output"
-  else
-    " use "new" instead of "tabnew" below if you prefer split windows instead of tabs
-    tabnew
-    setlocal buftype=nofile bufhidden=wipe noswapfile nobuflisted nomodified
-    silent put=message
-  endif
+    redir => message
+    silent execute a:cmd
+    redir END
+    if empty(message)
+        echoerr "no output"
+    else
+        " use "new" instead of "tabnew" below if you prefer split windows instead of tabs
+        tabnew
+        setlocal buftype=nofile bufhidden=wipe noswapfile nobuflisted nomodified
+        silent put=message
+    endif
 endfunction
 command! -nargs=+ -complete=command TabMessage call TabMessage(<q-args>)
+
+set modeline
