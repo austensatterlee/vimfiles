@@ -53,7 +53,7 @@ Plugin 'godlygeek/tabular'
 Plugin 'pboettch/vim-cmake-syntax'
 
 Plugin 'luochen1990/rainbow'
-let g:rainbow_active = 1 "0 if you want to enable it later via :RainbowToggle
+let g:rainbow_active = 0 "0 if you want to enable it later via :RainbowToggle
 
 Plugin 'Chiel92/vim-autoformat'
 noremap <leader>pp :Autoformat<CR>
