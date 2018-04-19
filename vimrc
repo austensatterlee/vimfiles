@@ -59,6 +59,8 @@ Plugin 'Chiel92/vim-autoformat'
 noremap <leader>pp :Autoformat<CR>
 let g:formatdef_autopep8 = '"autopep8 -".(g:DoesRangeEqualBuffer(a:firstline, a:lastline) ? " --range ".a:firstline." ".a:lastline : "")." ".(&textwidth ? "--max-line-length=".&textwidth : "")." --ignore=E501"'
 
+Plugin 'CoatiSoftware/vim-sourcetrail'
+
 " Brief help
 " :PluginList       - lists configured plugins
 " :PluginInstall    - installs plugins; append `!` to update or just :PluginUpdate
