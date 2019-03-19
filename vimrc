@@ -1,77 +1,76 @@
 set nocompatible              " be iMproved, required
-filetype off                  " required
 let mapleader = ","
 
-" set the runtime path to include Vundle and initialize
-if has('win32')
-    set rtp+=~/vimfiles/bundle/Vundle.vim
-    call vundle#begin('~/vimfiles/bundle')
-else
-    set rtp+=~/.vim/bundle/Vundle.vim
-    call vundle#begin('~/.vim/bundle')
+" +----------------+
+" |     Plug       |
+" +----------------+
+
+" Install vim-plug if we don't already have it
+if empty(glob('~/.vim/autoload/plug.vim'))
+  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
 
-Plugin 'VundleVim/Vundle.vim'
+call plug#begin('~/.vim/bundle')
 
-Plugin 'mileszs/ack.vim'
+Plug 'mileszs/ack.vim'
 
-Plugin 'kien/ctrlp.vim'
+Plug 'kien/ctrlp.vim'
 
-Plugin 'yegappan/mru'
+Plug 'yegappan/mru'
 
-Plugin 'scrooloose/nerdcommenter'
+Plug 'scrooloose/nerdcommenter'
 
-Plugin 'scrooloose/nerdtree'
-Plugin 'Xuyuanp/nerdtree-git-plugin'
+Plug 'scrooloose/nerdtree'
+Plug 'Xuyuanp/nerdtree-git-plugin'
 
-Plugin 'majutsushi/tagbar'
+Plug 'majutsushi/tagbar'
 
-Plugin 'Lokaltog/vim-easymotion'
+Plug 'Lokaltog/vim-easymotion'
 
-Plugin 'tpope/vim-endwise'
+Plug 'tpope/vim-endwise'
 
-Plugin 'xolox/vim-misc'
+Plug 'xolox/vim-misc'
 
-Plugin 'tpope/vim-scriptease'
+Plug 'tpope/vim-scriptease'
 
-Plugin 'tpope/vim-sensible'
+Plug 'tpope/vim-sensible'
 
-Plugin 'xolox/vim-session'
+Plug 'xolox/vim-session'
 
-Plugin 'tpope/vim-surround'
+Plug 'tpope/vim-surround'
 
-Plugin 'Valloric/YouCompleteMe'
+Plug 'Valloric/MatchTagAlways'
 
-Plugin 'Valloric/MatchTagAlways'
+Plug 'vim-scripts/closetag.vim'
 
-Plugin 'vim-scripts/closetag.vim'
+Plug 'flazz/vim-colorschemes'
 
-Plugin 'flazz/vim-colorschemes'
+Plug 'godlygeek/tabular'
 
-Plugin 'godlygeek/tabular'
+Plug 'pboettch/vim-cmake-syntax'
 
-Plugin 'pboettch/vim-cmake-syntax'
-
-Plugin 'luochen1990/rainbow'
+Plug 'luochen1990/rainbow'
 let g:rainbow_active = 0 "0 if you want to enable it later via :RainbowToggle
 
-Plugin 'Chiel92/vim-autoformat'
+Plug 'Chiel92/vim-autoformat'
 noremap <leader>pp :Autoformat<CR>
 let g:formatdef_autopep8 = '"autopep8 -".(g:DoesRangeEqualBuffer(a:firstline, a:lastline) ? " --range ".a:firstline." ".a:lastline : "")." ".(&textwidth ? "--max-line-length=".&textwidth : "")." --ignore=E501"'
 
-Plugin 'CoatiSoftware/vim-sourcetrail'
+" Enables Gblame
+Plug 'tpope/vim-fugitive'
 
-" Brief help
-" :PluginList       - lists configured plugins
-" :PluginInstall    - installs plugins; append `!` to update or just :PluginUpdate
-" :PluginSearch foo - searches for foo; append `!` to refresh local cache
-" :PluginClean      - confirms removal of unused plugins; append `!` to auto-approve removal
-"
-" see :h vundle for more details or wiki for FAQ
-" Put your non-Plugin stuff after this line
-" -------------------------------------------------------------------------------
-call vundle#end()            " required
-filetype plugin indent on    " required
+Plug 'CoatiSoftware/vim-sourcetrail'
+
+" Enables viewing ansii color codes in vim
+Plug 'powerman/vim-plugin-AnsiEsc'
+
+" Python refactoring
+Plug 'python-mode/python-mode', { 'branch': 'develop' }
+" Plug 'python-rope/ropevim'
+
+call plug#end()
 
 " Use Vim settings, rather than Vi settings (much better!).
 " This must be first, because it changes other options as a side effect.
@@ -418,16 +417,16 @@ map <Leader>Fp :CtrlPBufTagAll<cr>
 "set t_Sb=m
 "set t_Sf=m
 " set t_Co=
-if has('win32')
+if has('gui')
 else
     set term=xterm-256color
-    set <Up>=[A
+    set <Up>=OA
     set <xUp>=[A
-    set <Left>=[D
+    set <Left>=OD
     set <xLeft>=[D
-    set <Right>=[C
+    set <Right>=OC
     set <xRight>=[C
-    set <Down>=[B
+    set <Down>=OB
     set <xDown>=[B
 endif
 
