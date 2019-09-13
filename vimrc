@@ -5,14 +5,21 @@ let mapleader = ","
 " |     Plug       |
 " +----------------+
 
-" Install vim-plug if we don't already have it
-if empty(glob('~/.vim/autoload/plug.vim'))
-  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
-    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+if has("win32")
+    let s:myconfigdir = expand("~/vimfiles", ":p")
+else
+    let s:myconfigdir = expand("~/.vim", ":p")
 endif
 
-call plug#begin('~/.vim/bundle')
+" Install vim-plug if we don't already have it
+if empty(glob(s:myconfigdir . '/autoload/plug.vim'))
+    exe '!curl -fLo ' . s:myconfigdir . '/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+    " silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+    " \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+    autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+endif
+
+call plug#begin(s:myconfigdir . '/bundle')
 
 Plug 'mileszs/ack.vim'
 
@@ -54,10 +61,6 @@ Plug 'pboettch/vim-cmake-syntax'
 Plug 'luochen1990/rainbow'
 let g:rainbow_active = 0 "0 if you want to enable it later via :RainbowToggle
 
-Plug 'Chiel92/vim-autoformat'
-noremap <leader>pp :Autoformat<CR>
-let g:formatdef_autopep8 = '"autopep8 -".(g:DoesRangeEqualBuffer(a:firstline, a:lastline) ? " --range ".a:firstline." ".a:lastline : "")." ".(&textwidth ? "--max-line-length=".&textwidth : "")." --ignore=E501"'
-
 " Enables Gblame
 Plug 'tpope/vim-fugitive'
 
@@ -66,29 +69,27 @@ Plug 'CoatiSoftware/vim-sourcetrail'
 " Enables viewing ansii color codes in vim
 Plug 'powerman/vim-plugin-AnsiEsc'
 
-" Python refactoring
-Plug 'python-mode/python-mode', { 'branch': 'develop' }
-" Plug 'python-rope/ropevim'
+" YCM
+Plug 'Valloric/YouCompleteMe'
+let g:ycm_confirm_extra_conf = 0
+
+" Jedi (python autocomplete)
+Plug 'davidhalter/jedi-vim'
+
+Plug 'Chiel92/vim-autoformat'
+let g:formatdef_autopep8 = '"autopep8 -".(g:DoesRangeEqualBuffer(a:firstline, a:lastline) ? " --range ".a:firstline." ".a:lastline : "")." ".(&textwidth ? "--max-line-length=".&textwidth : "")." --ignore=E501"'
+
+set completeopt=menuone,noinsert
 
 call plug#end()
 
 " Use Vim settings, rather than Vi settings (much better!).
 " This must be first, because it changes other options as a side effect.
 "
-
-" Use jk to enter command mode
-inoremap jk <Esc>
-if has("win32")
-    set backup
-    set viewdir=~/vimfiles/view
-    set backupdir=~/vimfiles/backup
-else
-    set backup
-    set viewdir=~/.vim/view
-    set backupdir=~/.vim/backup
-endif
 set autochdir
-" set t_Co=256
+set backup
+let &backupdir = s:myconfigdir . '/view'
+let &viewdir = s:myconfigdir . '/backup'
 
 set exrc
 set secure
@@ -102,7 +103,6 @@ set showmode
 set showmatch
 set scrolloff=7
 set backspace=eol,start
-set autochdir
 
 " Make tabs == 4 spaces
 set tabstop=4
@@ -123,14 +123,6 @@ set listchars=tab:>-,trail:-
 set statusline-=[%{&fo}]
 set statusline+=[%{&fo}]
 set formatoptions-=t
-" Highlight lines longer than 74
-" augroup vimrc_autocmds
-"   autocmd BufEnter * highlight OverLength ctermbg=darkgrey guibg=#592929
-"   autocmd BufEnter * match OverLength /\%74v.*/
-" augroup END
-" Use ,wr to wrap lines
-noremap <leader>wr :g/^/norm gqq<CR>
-noremap <leader>ma :w<CR>:make<CR>
 
 " Fold column
 set foldcolumn=2
@@ -141,12 +133,6 @@ set noerrorbells
 
 " Change cursor type for insert/command
 set nu
-autocmd InsertEnter * :set nornu
-autocmd InsertLeave * :set rnu
-autocmd WinLeave * set nocursorline
-autocmd WinLeave * set nocursorcolumn
-autocmd WinEnter * set cursorline
-autocmd WinEnter * set cursorcolumn
 
 if has("win32")
     " Convenient command to see the difference between the current
@@ -158,26 +144,47 @@ if has("win32")
     endif
 endif
 
-" vim -b : edit binary using xxd-format!
-augroup Binary
-    au!
-    au BufReadPre  *.bin,*.mid let &bin=1
-    au BufReadPost *.bin,*.mid if &bin | %!xxd
-    au BufReadPost *.bin,*.mid set ft=xxd | endif
-    au BufWritePre *.bin,*.mid if &bin | %!xxd -r
-    au BufWritePre *.bin,*.mid endif
-    au BufWritePost *.bin,*.mid if &bin | %!xxd
-    au BufWritePost *.bin,*.mid set nomod | endif
-augroup END
+if !exists("vimrc_autocommands_loaded")
+    let vimrc_autocommands_loaded = 1
 
-" Map nerdtree to ctrl-n
-map <C-n> :NERDTreeToggle<CR>
-nmap <leader>tb :TagbarToggle<CR>
+    " vim -b : edit binary using xxd-format!
+    augroup Binary
+        au!
+        au BufReadPre  *.bin,*.mid let &bin=1
+        au BufReadPost *.bin,*.mid if &bin | %!xxd
+        au BufReadPost *.bin,*.mid set ft=xxd | endif
+        au BufWritePre *.bin,*.mid if &bin | %!xxd -r
+        au BufWritePre *.bin,*.mid endif
+        au BufWritePost *.bin,*.mid if &bin | %!xxd
+        au BufWritePost *.bin,*.mid set nomod | endif
+    augroup END
 
-" Open NERDTree automatically when vim starts up if no files were
-" specified
-" autocmd StdinReadPre * let s:std_in=1
-" autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
+    augroup SwitchLineNumbers
+        autocmd InsertEnter * :set nornu
+        autocmd InsertLeave * :set rnu
+        autocmd WinLeave * set nocursorline
+        autocmd WinLeave * set nocursorcolumn
+        autocmd WinEnter * set cursorline
+        autocmd WinEnter * set cursorcolumn
+    augroup END
+
+    " Open NERDTree automatically when vim starts up if no files were
+    " specified
+    augroup OpenNERDTree
+        autocmd StdinReadPre * let s:std_in=1
+        autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
+    augroup END
+
+    augroup RecalcStatusWarnings
+        " Recalculate the trailing whitespace warning when idle, and after saving
+        autocmd cursorhold,bufwritepost * unlet! b:statusline_trailing_space_warning
+        " Recalculate the tab warning flag when idle and after writing
+        autocmd cursorhold,bufwritepost * unlet! b:statusline_tab_warning
+        " Recalculate the long line warning when idle and after saving
+        autocmd cursorhold,bufwritepost * unlet! b:statusline_long_line_warning
+    augroup END
+endif
+
 " NERDTree settings
 let NERDTreeIgnore = ['\~$','\.pyc$','\.swp$']
 let g:NERDTreeMouseMode = 2
@@ -193,8 +200,6 @@ let NERDTreeHijackNetrw=1
 let g:NERDSpaceDelims = 1
 
 " Session settings
-noremap <leader>ss :SaveSession<CR>
-noremap <leader>os :OpenSession<CR>
 let g:session_autosave = 'no'
 let g:session_autoload = 'yes'
 
@@ -253,9 +258,6 @@ set statusline+=%l/%L   "cursor line/total lines
 set statusline+=\ %P    "percent through file
 set laststatus=2
 
-"recalculate the trailing whitespace warning when idle, and after saving
-autocmd cursorhold,bufwritepost * unlet! b:statusline_trailing_space_warning
-
 "return '[\s]' if trailing white space is detected
 "return '' otherwise
 function! StatuslineTrailingSpaceWarning()
@@ -286,9 +288,6 @@ function! StatuslineCurrentHighlight()
     endif
 endfunction
 
-"recalculate the tab warning flag when idle and after writing
-autocmd cursorhold,bufwritepost * unlet! b:statusline_tab_warning
-
 "return '[&et]' if &et is set wrong
 "return '[mixed-indenting]' if spaces and tabs are used to indent
 "return an empty string if everything is fine
@@ -313,9 +312,6 @@ function! StatuslineTabWarning()
     endif
     return b:statusline_tab_warning
 endfunction
-
-"recalculate the long line warning when idle and after saving
-autocmd cursorhold,bufwritepost * unlet! b:statusline_long_line_warning
 
 "return a warning for "long lines" where "long" is either &textwidth or 80 (if
 "no &textwidth is set)
@@ -367,31 +363,14 @@ function! s:Median(nums)
     endif
 endfunction
 
-"make <c-l> clear the highlight as well as redraw
-nnoremap <C-L> :nohls<CR><C-L>
-inoremap <C-L> <C-O>:nohls<CR>
-
 "easymotion config
 let g:EasyMotion_do_mapping = 0 " Disable default mappings
-
-" Bi-directional find motion
-" Jump to anywhere you want with minimal keystrokes, with just one key binding.
-" `s{char}{label}`
-" nmap s <Plug>(easymotion-s)
-" or
-" `s{char}{char}{label}`
-" Need one more keystroke, but on average, it may be more comfortable.
-nmap s <Plug>(easymotion-s2)
 
 " Turn on case sensitive feature
 let g:EasyMotion_smartcase = 1
 
 " conque config
 let g:ConqueTerm_FastMode = 1
-
-" JK motions: Line motions
-map <Leader>j <Plug>(easymotion-j)
-map <Leader>k <Plug>(easymotion-k)
 
 " ctrl-p options
 let g:ctrlp_extensions = ['buffertag', 'line', 'tag', 'dir', 'changes', 'quickfix', 'rtscript', 'undo',
@@ -405,38 +384,18 @@ let g:ctrlp_working_path_mode = 1
 set wildignore+=*/build/**
 set wildignore+=*/out/**
 set wildignore+=*/vendor/**
-map <Leader>fp :CtrlPMixed<cr>
-map <Leader>Fp :CtrlPBufTagAll<cr>
-"" Search in certain directories a large project (hardcoded for now)
-"cnoremap %proj <c-r>=expand('~/Projects/some-project')<cr>
-"" ga = go api
-"map <Leader>ga :CtrlP %proj/api/<cr>
-"" gf = go frontend
-"map <Leader>gf :CtrlP %proj/some/long/path/to/frontend/code/<cr>
 
-"set t_Sb=m
-"set t_Sf=m
-" set t_Co=
-if has('gui')
-else
-    set term=xterm-256color
-    set <Up>=OA
-    set <xUp>=[A
-    set <Left>=OD
-    set <xLeft>=[D
-    set <Right>=OC
-    set <xRight>=[C
-    set <Down>=OB
-    set <xDown>=[B
+if !has('gui')
+    " set term=xterm-256color
+    " set <Up>=OA
+    " set <xUp>=[A
+    " set <Left>=OD
+    " set <xLeft>=[D
+    " set <Right>=OC
+    " set <xRight>=[C
+    " set <Down>=OB
+    " set <xDown>=[B
 endif
-
-" YCM
-let g:ycm_confirm_extra_conf = 0
-
-" Smart home feature
-" Home takes you to the first non-blank character of the line, unless you're already there.
-noremap <expr> <silent> <Home> col('.') == match(getline('.'),'\S')+1 ? '0' : '^'
-imap <silent> <Home> <C-O><Home>
 
 " Redirects output of a command into a new tab
 function! TabMessage(cmd)
@@ -459,11 +418,57 @@ command! -nargs=+ -complete=command TabMessage call TabMessage(<q-args>)
 " Use substitute() instead of printf() to handle '%%s' modeline in LaTeX
 " files.
 function! AppendModeline()
-  let l:modeline = printf(" vim: set ts=%d sw=%d tw=%d %set :",
-        \ &tabstop, &shiftwidth, &textwidth, &expandtab ? '' : 'no')
-  let l:modeline = substitute(&commentstring, "%s", l:modeline, "")
-  call append(line("$"), l:modeline)
+    let l:modeline = printf(" vim: set ts=%d sw=%d tw=%d %set :",
+                \ &tabstop, &shiftwidth, &textwidth, &expandtab ? '' : 'no')
+    let l:modeline = substitute(&commentstring, "%s", l:modeline, "")
+    call append(line("$"), l:modeline)
 endfunction
-nnoremap <silent> <Leader>ml :call AppendModeline()<CR>
 
 set modeline
+
+" Autoform with <leader>pp
+noremap <leader>pp :Autoformat<CR>
+
+" Use <leader>ml to add a modeline to the current file
+nnoremap <silent> <Leader>ml :call AppendModeline()<CR>
+
+" Use jk to enter command mode
+inoremap jk <Esc>
+
+" Remap q to Q
+nnoremap Q q
+nnoremap q <Nop>
+
+" Smart home feature
+" Home takes you to the first non-blank character of the line, unless you're already there.
+noremap <expr> <silent> <Home> col('.') == match(getline('.'),'\S')+1 ? '0' : '^'
+imap <silent> <Home> <C-O><Home>
+
+" Map nerdtree to ctrl-n
+nnoremap <leader><C-n> :NERDTreeToggle<CR>
+nnoremap <leader>tb :TagbarToggle<CR>
+
+" Session shortcuts
+noremap <leader>ss :SaveSession<CR>
+noremap <leader>os :OpenSession<CR>
+
+" Make <c-l> clear the highlight as well as redraw
+nnoremap <C-L> :nohls<CR><C-L>
+inoremap <C-L> <C-O>:nohls<CR>
+
+" Bi-directional find motion
+" Jump to anywhere you want with minimal keystrokes, with just one key binding.
+" `s{char}{label}`
+" nmap s <Plug>(easymotion-s)
+" or
+" `s{char}{char}{label}`
+" Need one more keystroke, but on average, it may be more comfortable.
+nmap s <Plug>(easymotion-s2)
+map <Leader>j <Plug>(easymotion-j)
+map <Leader>k <Plug>(easymotion-k)
+
+map <Leader>fp :CtrlPMixed<cr>
+map <Leader>Fp :CtrlPBufTagAll<cr>
+
+" Reopen closed window
+nmap <c-s-t> :vs<bar>:b#<CR>
